@@ -1,35 +1,50 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import Header from "./components/Header";
+import NewsCard from "./components/NewsCard";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [articles, setArticles] = useState([]);
+  const [countries, setCountries] = useState(["in"]);
+  const [language, setLanguage] = useState("en");
+  const [loading, setLoading] = useState(false);
+
+  const apiKey = import.meta.env.VITE_NEWS_API;
+
+  const fetchNews = async () => {
+    setLoading(true);
+    try {
+      const countryParam = countries.join(","); // multiple countries
+      const url = `https://newsdata.io/api/1/news?apikey=${apiKey}&language=${language}&country=${countryParam}`;
+      const res = await fetch(url);
+      const data = await res.json();
+      if (data.results) setArticles(data.results);
+    } catch (err) {
+      console.error("Error fetching news:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchNews();
+  }, [countries, language]);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      <Header
+        countries={countries}
+        setCountries={setCountries}
+        language={language}
+        setLanguage={setLanguage}
+      />
+
+      {loading ? (
+        <p className="text-center mt-10 text-gray-500">Loading news...</p>
+      ) : (
+        <NewsCard articles={articles} />
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;
