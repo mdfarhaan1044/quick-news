@@ -1,16 +1,92 @@
-# React + Vite
+<div align="center">
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 🌍 Quick News
 
-Currently, two official plugins are available:
+Lightweight, mobile‑first news app built with React + Vite and Tailwind CSS. Browse the latest headlines in your preferred language with a polished, responsive UI.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+</div>
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Features
 
-## Expanding the ESLint configuration
+- **Language selector** with on-demand reload
+- **Responsive grid** of news cards with graceful image fallback
+- **Sticky header** and smooth UI transitions
+- **Skeleton loading** for fast perceived performance
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Tech stack
+
+- React 19 + Vite
+- Tailwind CSS with PostCSS + Autoprefixer
+- Fetches from newsdata.io API
+
+## Getting started
+
+Prereqs: Node 18+ (or recent LTS) and npm.
+
+1. Install dependencies
+
+```bash
+npm install
+```
+
+2. Create a `.env` in project root with your API key
+
+```bash
+VITE_NEWS_API=your_newsdata_api_key
+```
+
+3. Start dev server
+
+```bash
+npm run dev
+```
+
+4. Build for production
+
+```bash
+npm run build
+npm run preview
+```
+
+Open the preview URL shown in the terminal to test the production build locally.
+
+## Available scripts
+
+- `npm run dev` – start Vite dev server with HMR
+- `npm run build` – production build
+- `npm run preview` – preview the production build
+- `npm run lint` – run ESLint
+
+## Project structure
+
+```text
+quick-news/
+├─ public/
+│  └─ favicon.png
+├─ src/
+│  ├─ components/
+│  │  ├─ Header.jsx
+│  │  └─ NewsCard.jsx
+│  ├─ data/
+│  │  └─ langList.js
+│  ├─ App.jsx
+│  ├─ main.jsx
+│  └─ index.css
+├─ index.html
+├─ tailwind.config.js
+├─ postcss.config.js
+└─ vite.config.js
+```
+
+## Environment variables
+
+- `VITE_NEWS_API` – API key for newsdata.io
+
+Vite exposes variables prefixed with `VITE_` at build-time. See usages in `src/App.jsx`.
+
+## Notes
+
+- Tailwind is imported in `src/main.jsx` via `src/index.css`. Do not link CSS directly in `index.html`.
+- The language list is defined in `src/data/langList.js`.

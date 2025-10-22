@@ -2,12 +2,12 @@ import { useState } from "react";
 import { Globe, Check } from "lucide-react";
 import { languages } from "../data/langList";
 
-export default function Header({ language, setLanguage, fetchNews }) {
+export default function Header({ language, setLanguage, reloadNews }) {
   const [selected, setSelected] = useState(language);
 
   const handleSave = () => {
     setLanguage(selected);
-    fetchNews();
+    reloadNews();
   };
 
   return (
