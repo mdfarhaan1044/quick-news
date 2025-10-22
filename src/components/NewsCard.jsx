@@ -1,10 +1,6 @@
-export default function NewsCard({ articles }) {
+export default function NewsCard({ articles, reloadNews }) {
   if (!articles || articles.length === 0)
     return <p className="text-center mt-10 text-gray-500">No news found.</p>;
-
-  const reloadNews = () => {
-    window.location.reload();
-  };
 
   return (
     <div className="p-6">

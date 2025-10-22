@@ -4,7 +4,6 @@ import NewsCard from "./components/NewsCard";
 
 function App() {
   const [articles, setArticles] = useState([]);
-  const [countries, setCountries] = useState(["in"]);
   const [language, setLanguage] = useState("en");
   const [loading, setLoading] = useState(false);
 
@@ -13,8 +12,7 @@ function App() {
   const fetchNews = async () => {
     setLoading(true);
     try {
-      const countryParam = countries.join(","); // multiple countries
-      const url = `https://newsdata.io/api/1/news?apikey=${apiKey}&language=${language}&country=${countryParam}`;
+      const url = `https://newsdata.io/api/1/news?apikey=${apiKey}&language=${language}`;
       const res = await fetch(url);
       const data = await res.json();
       if (data.results) setArticles(data.results);
@@ -27,21 +25,20 @@ function App() {
 
   useEffect(() => {
     fetchNews();
-  }, [countries, language]);
+  }, [language]);
+
+  const reloadNews = () => {
+    fetchNews();
+  };
 
   return (
     <div>
-      <Header
-        countries={countries}
-        setCountries={setCountries}
-        language={language}
-        setLanguage={setLanguage}
-      />
+      <Header language={language} setLanguage={setLanguage} />
 
       {loading ? (
         <p className="text-center mt-10 text-gray-500">Loading news...</p>
       ) : (
-        <NewsCard articles={articles} />
+        <NewsCard articles={articles} reloadNews={reloadNews} />
       )}
     </div>
   );
