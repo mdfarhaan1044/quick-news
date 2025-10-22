@@ -1,42 +1,48 @@
 import { useState } from "react";
+import { Globe, Check } from "lucide-react";
 import { languages } from "../data/langList";
 
-export default function Header({ language, setLanguage, reloadNews }) {
-  const [selectedLang, setSelectedLang] = useState(language);
-
-  const handleLangChange = (e) => {
-    setSelectedLang(e.target.value);
-  };
+export default function Header({ language, setLanguage, fetchNews }) {
+  const [selected, setSelected] = useState(language);
 
   const handleSave = () => {
-    setLanguage(selectedLang);
-    reloadNews();
+    setLanguage(selected);
+    fetchNews();
   };
 
   return (
-    <header className="p-4 bg-blue-600 text-white flex flex-wrap items-center justify-between gap-3">
-      <h1 className="text-2xl font-bold">🌍 Quick News</h1>
+    <header className="sticky top-0 z-50 bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-4">
+        {/* Title */}
+        <h1 className="flex items-center gap-2 text-xl sm:text-2xl font-bold">
+          <Globe className="h-6 w-6" />
+          Quick News
+        </h1>
 
-      <div className="flex flex-wrap gap-3 items-center">
-        {/* Language Selector */}
-        <select
-          value={selectedLang}
-          onChange={handleLangChange}
-          className="p-2 rounded text-black"
-        >
-          {languages.map((lang) => (
-            <option key={lang.code} value={lang.code}>
-              {lang.name}
-            </option>
-          ))}
-        </select>
+        {/* Controls */}
+        <div className="flex w-full sm:w-auto flex-col sm:flex-row gap-3 items-stretch sm:items-center">
+          {/* Language selector */}
+          <div className="relative">
+            <select
+              value={selected}
+              onChange={(e) => setSelected(e.target.value)}
+              className="appearance-none bg-white/10 backdrop-blur-sm text-white placeholder-white/70 px-4 py-2 pr-9 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 w-full sm:w-56 transition"
+            >
+              {languages.map((l) => (
+                <option key={l.code} value={l.code} className="text-gray-900">
+                  {l.flag} {l.name}
+                </option>
+              ))}
+            </select>
+            <Globe className="absolute right-2 top-1/2 -translate-y-1/2 h-5 w-5 pointer-events-none text-white/70" />
+          </div>
 
-        {/* Buttons */}
-        <div className="flex gap-2">
+          {/* Save button */}
           <button
             onClick={handleSave}
-            className="bg-white text-blue-700 px-3 py-1 rounded font-semibold hover:bg-gray-200 transition"
+            className="flex items-center justify-center gap-1.5 bg-white text-blue-600 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100 active:bg-gray-200 transition shadow-sm"
           >
+            <Check className="h-4 w-4" />
             Save
           </button>
         </div>
